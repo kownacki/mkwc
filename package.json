@@ -1,0 +1,13 @@
+{
+  "name": "mkwc",
+  "private": true,
+  "engines": {
+    "node": ">=16",
+    "npm": ">=8"
+  },
+  "devDependencies": {
+  },
+  "dependencies": {
+    "lit": "^2.2.0"
+  }
+}

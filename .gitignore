@@ -1,0 +1,9 @@
+.idea/
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+firebase-debug.log*
+.DS_Store
