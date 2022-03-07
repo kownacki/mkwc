@@ -1,13 +1,17 @@
 {
   "name": "mkwc",
+  "version": "0.1.0",
+  "type": "module",
   "private": true,
-  "engines": {
-    "node": ">=16",
-    "npm": ">=8"
-  },
-  "devDependencies": {
-  },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-inline": "git+https://github.com/kownacki/ckeditor5-build-inline.git#stable",
+    "material-colors": "^1.2.6",
+    "mk-frontend-web-utils": "git+https://github.com/kownacki/mk-frontend-web-utils.git#master",
+    "mk-js-utils": "git+https://github.com/kownacki/mk-js-utils.git#master"
+  },
+  "peerDependencies": {
+    "@material/mwc-button": "^0.25.3",
+    "@material/mwc-icon-button": "^0.25.3",
     "lit": "^2.2.0"
   }
 }
