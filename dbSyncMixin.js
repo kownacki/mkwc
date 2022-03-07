@@ -1,4 +1,4 @@
-export default (dataPropName, Class) =>
+export const dbSyncMixin = (dataPropName, Class) =>
   class extends Class {
     static get properties() {
       return {

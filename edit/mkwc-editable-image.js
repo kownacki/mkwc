@@ -6,7 +6,7 @@ import '../mkwc-loading-dots.js';
 import {sharedStyles} from '../styles.js';
 import './mkwc-image-upload.js';
 
-export default class extends LitElement {
+export class MkwcEditableImage extends LitElement {
   static get properties() {
     return {
       src: {type: Boolean, reflect: true, attribute: 'not-empty'},

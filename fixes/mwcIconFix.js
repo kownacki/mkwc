@@ -1,7 +1,7 @@
 import {css} from 'lit';
 
 // 1. Allows adding icon shadow
-export default (MwcIcon) =>
+export const mwcIconFix = (MwcIcon) =>
   class extends MwcIcon {
     static get styles() {
       return [super.styles, css`

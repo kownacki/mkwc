@@ -1,6 +1,5 @@
-import MkwcEditableText from './mkwc-editable-text.js';
-import dbSyncMixin from '../dbSyncMixin.js'
+import {dbSyncMixin} from '../dbSyncMixin.js';
+import {MkwcEditableText} from './mkwc-editable-text.js';
 
-export default class MkwcText extends dbSyncMixin('text', MkwcEditableText) {
-};
+export class MkwcText extends dbSyncMixin('text', MkwcEditableText) {}
 customElements.define('mkwc-text', MkwcText);

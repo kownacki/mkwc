@@ -1,7 +1,7 @@
 import {LitElement, html, css} from 'lit';
 import {sleep} from 'mk-js-utils';
 
-customElements.define('mkwc-image-upload', class extends LitElement {
+export class MkwcImageUpload extends LitElement {
   static get properties() {
     return {
     };
@@ -42,4 +42,5 @@ customElements.define('mkwc-image-upload', class extends LitElement {
       <input id="input" type="file" accept="image/png, image/jpeg">
     `;
   }
-});
+}
+customElements.define('mkwc-image-upload', MkwcImageUpload);

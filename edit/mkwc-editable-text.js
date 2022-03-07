@@ -4,7 +4,7 @@ import {moveOutFromShadowDom} from 'mk-frontend-web-utils/moveOutFromShadowDom.j
 import '../mkwc-loading-dots.js';
 import {sharedStyles} from '../styles.js';
 
-export default class extends LitElement {
+export class MkwcEditableText extends LitElement {
   static get properties() {
     return {
       text: String,

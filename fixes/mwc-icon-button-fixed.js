@@ -1,4 +1,5 @@
 import {IconButton as MwcIconButton} from '@material/mwc-icon-button';
-import mwcIconFix from './mwcIconFix.js';
+import {mwcIconFix} from './mwcIconFix.js';
 
-customElements.define('mwc-icon-button-fixed', class extends mwcIconFix(MwcIconButton) {});
+export class MwcIconButtonFixed extends mwcIconFix(MwcIconButton) {}
+customElements.define('mwc-icon-button-fixed', MwcIconButtonFixed);

@@ -2,7 +2,7 @@ import {css} from 'lit';
 
 // 1. Adds a line under label when textarea is scrolled. Set line color with --mdc-textarea-fixed-divider-color.
 // 2. Allows scrolling textarea when disabled
-export default (MwcTextarea) =>
+export const mwcTextareaFix = (MwcTextarea) =>
   class extends MwcTextarea {
     constructor() {
       super();

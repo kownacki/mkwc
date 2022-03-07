@@ -1,7 +1,7 @@
-import MkwcEditableImage from './mkwc-editable-image.js';
-import dbSyncMixin from '../dbSyncMixin.js'
+import {dbSyncMixin} from '../dbSyncMixin.js'
+import {MkwcEditableImage} from './mkwc-editable-image.js';
 
-export default class MkwcImage extends dbSyncMixin('image', MkwcEditableImage) {
+export class MkwcImage extends dbSyncMixin('image', MkwcEditableImage) {
   static get properties() {
     return {
       image: Object,
@@ -17,5 +17,5 @@ export default class MkwcImage extends dbSyncMixin('image', MkwcEditableImage) {
     }
     super.updated(changedProperties);
   }
-};
+}
 customElements.define('mkwc-image', MkwcImage);
