@@ -17,7 +17,7 @@ export class MkwcEditableImage extends LitElement {
       compressionQuality: Number,
       presize: {type: Boolean, reflect: true},
       lowerImage: {type: Boolean, reflect: true, attribute: 'lower-image'},
-      enableEditing: Boolean,
+      editingEnabled: Boolean,
     };
   }
   static get styles() {
@@ -84,7 +84,7 @@ export class MkwcEditableImage extends LitElement {
       <div class="container">
         ${this.ready ? '' : html`<mkwc-loading-dots></mkwc-loading-dots>`}
         ${!this.src ? '' : html`<img class="image" .src=${this.src}>`}
-        ${!this.enableEditing || !this.ready ? '' : html`
+        ${!this.editingEnabled || !this.ready ? '' : html`
           <mkwc-image-upload id="upload"></mkwc-image-upload>
           <mwc-icon-button-fixed
             .noink=${true}

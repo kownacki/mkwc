@@ -9,7 +9,7 @@ export class MkwcEditableText extends LitElement {
     return {
       text: String,
       ready: {type: Boolean, reflect: true},
-      enableEditing: Boolean,
+      editingEnabled: Boolean,
       disabled: Boolean,
       showControls: Boolean,
       //todo rich and lessRich into one property
@@ -151,8 +151,8 @@ export class MkwcEditableText extends LitElement {
       this._editable.innerHTML = this.text || (this.rich ? '<p></p>' : '');
       this._checkIfEmpty();
     }
-    if (changedProperties.has('_editable') || changedProperties.has('ready') || (changedProperties.has('enableEditing'))) {
-      if (this._editable && this.ready && this.enableEditing) {
+    if (changedProperties.has('_editable') || changedProperties.has('ready') || (changedProperties.has('editingEnabled'))) {
+      if (this._editable && this.ready && this.editingEnabled) {
         if (!this._editorSet) {
           this._editorSet = true;
           this._setEditor();
@@ -162,11 +162,11 @@ export class MkwcEditableText extends LitElement {
     if (changedProperties.has('disabled')
       || changedProperties.has('ready')
       || changedProperties.has('_editable')
-      || changedProperties.has('enableEditing')
+      || changedProperties.has('editingEnabled')
     ) {
       if (this._editable) {
         //todo empty textfield has height 0 when contenteditable set to false
-        this._editable.setAttribute('contenteditable', !(this.disabled || !this.ready || !this.enableEditing));
+        this._editable.setAttribute('contenteditable', !(this.disabled || !this.ready || !this.editingEnabled));
       }
     }
   }
@@ -219,7 +219,7 @@ export class MkwcEditableText extends LitElement {
     return html`
       ${this.ready ? '' : html`<mkwc-loading-dots></mkwc-loading-dots>`}
       <slot id="text"></slot>
-      ${!this.enableEditing || !this.showControls ? '' : html`
+      ${!this.editingEnabled || !this.showControls ? '' : html`
         <div class="edit">
           ${_.map((button) => html`
             <mwc-button
