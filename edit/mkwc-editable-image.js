@@ -15,8 +15,8 @@ export class MkwcEditableImage extends LitElement {
       maxWidth: Number,
       maxHeight: Number,
       compressionQuality: Number,
-      presize: {type: Boolean, reflect: true},
-      lowerImage: {type: Boolean, reflect: true, attribute: 'lower-image'},
+      presize: {type: Boolean, reflect: true}, //todo Not documented
+      lowerImage: {type: Boolean, reflect: true, attribute: 'lower-image'}, //todo Not documented
       editingEnabled: Boolean,
     };
   }
