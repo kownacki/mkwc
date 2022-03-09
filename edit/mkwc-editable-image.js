@@ -70,7 +70,8 @@ export class MkwcEditableImage extends LitElement {
         align-items: center;
         justify-content: center;
         color: white;
-        --mdc-icon-fixed-shadow: 0 0 10px var(--mkwc-editable-image-icon-button-shadow-color);
+        --mdc-icon-fixed-shadow: 0 0 10px
+          var(--mkwc-editable-image-icon-button-shadow-color, var(--_mkwc-placeholder-color));
         --mdc-icon-size: 48px;
       }
       .container:hover mwc-icon-button-fixed {
