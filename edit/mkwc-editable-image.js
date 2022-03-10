@@ -77,9 +77,10 @@ export class MkwcEditableImage extends LitElement {
     return html`
       ${this.ready ? '' : html`<mkwc-loading-dots></mkwc-loading-dots>`}
       ${!this.src ? '' : html`<img class="image" .src=${this.src}>`}
-      ${!this.editingEnabled || !this.ready ? '' : html`
+      ${!this.editingEnabled ? '' : html`
         <mkwc-image-upload id="upload"></mkwc-image-upload>
         <mwc-icon-button-fixed
+          ?hidden=${!this.ready}
           .noink=${true}
           .icon=${'image'}
           @click=${async () => {
