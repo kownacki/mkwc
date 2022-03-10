@@ -5,4 +5,7 @@ export const sharedStyles = css`
   :host {
     --_mkwc-placeholder-color: var(--mkwc-placeholder-color, ${unsafeCSS(materialColors.grey['400'])});
   }
+  [hidden] {
+    display: none !important;
+  }
 `;
