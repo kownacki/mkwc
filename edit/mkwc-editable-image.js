@@ -26,7 +26,7 @@ export class MkwcEditableImage extends LitElement {
         display: block;
         position: relative;
       }
-      :host(:not([ready])), :host([loading]) {
+      :host(:not([ready])) .image, :host([loading]) .image {
         opacity: 50%;
       }
       :host(:not([not-empty])) {
