@@ -23,15 +23,12 @@ export class MkwcEditableImage extends LitElement {
     return [sharedStyles, css`
       :host {
         display: block;
+        position: relative;
       }
       :host(:not([ready])) {
         opacity: 50%;
       }
-      .container {
-        position: relative;
-        height: 100%;
-      }
-      :host(:not([not-empty])) .container {
+      :host(:not([not-empty])) {
         background: var(--mkwc-editable-image-placeholder-color, var(--_mkwc-placeholder-color));
       }
       :host([presize]:not([not-empty])) {
@@ -70,7 +67,7 @@ export class MkwcEditableImage extends LitElement {
           var(--mkwc-editable-image-icon-button-shadow-color, var(--_mkwc-placeholder-color));
         --mdc-icon-size: 48px;
       }
-      .container:hover mwc-icon-button-fixed {
+      :host(:hover) mwc-icon-button-fixed {
         display: flex;
         cursor: pointer;
       }
@@ -78,38 +75,36 @@ export class MkwcEditableImage extends LitElement {
   }
   render() {
     return html`
-      <div class="container">
-        ${this.ready ? '' : html`<mkwc-loading-dots></mkwc-loading-dots>`}
-        ${!this.src ? '' : html`<img class="image" .src=${this.src}>`}
-        ${!this.editingEnabled || !this.ready ? '' : html`
-          <mkwc-image-upload id="upload"></mkwc-image-upload>
-          <mwc-icon-button-fixed
-            .noink=${true}
-            .icon=${'image'}
-            @click=${async () => {
-              if (this.maxHeight && !this.fit) {
-                // This case is not supported right now due to ambiguity. 
-                // It's not clear whether image should be stretched, cropped or changed at all.
-                throw new TypeError(
-                  'Unsupported parameters combination. "maxHeight" cannot be set without "fit".',
-                );
-              }
-              let file = await this.shadowRoot.getElementById('upload').upload();
-              if (file) {
-                const blob = await fitAndCompress(
-                  this.fit === 'contain' ? 'scale-down' : this.fit,
-                  this.maxWidth,
-                  this.maxHeight, 
-                  this.compressionQuality,
-                  file
-                );
-                this.dispatchEvent(new CustomEvent('save', {detail: blob}));
-                this.src = await readBlobOrFile(blob);           
-              }
-            }}>
-          </mwc-icon-button-fixed>
-        `}
-      </div>
+      ${this.ready ? '' : html`<mkwc-loading-dots></mkwc-loading-dots>`}
+      ${!this.src ? '' : html`<img class="image" .src=${this.src}>`}
+      ${!this.editingEnabled || !this.ready ? '' : html`
+        <mkwc-image-upload id="upload"></mkwc-image-upload>
+        <mwc-icon-button-fixed
+          .noink=${true}
+          .icon=${'image'}
+          @click=${async () => {
+            if (this.maxHeight && !this.fit) {
+              // This case is not supported right now due to ambiguity. 
+              // It's not clear whether image should be stretched, cropped or changed at all.
+              throw new TypeError(
+                'Unsupported parameters combination. "maxHeight" cannot be set without "fit".',
+              );
+            }
+            let file = await this.shadowRoot.getElementById('upload').upload();
+            if (file) {
+              const blob = await fitAndCompress(
+                this.fit === 'contain' ? 'scale-down' : this.fit,
+                this.maxWidth,
+                this.maxHeight, 
+                this.compressionQuality,
+                file
+              );
+              this.dispatchEvent(new CustomEvent('save', {detail: blob}));
+              this.src = await readBlobOrFile(blob);           
+            }
+          }}>
+        </mwc-icon-button-fixed>
+      `}
     `;
   }
 }
