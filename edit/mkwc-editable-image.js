@@ -16,7 +16,6 @@ export class MkwcEditableImage extends LitElement {
       maxHeight: Number,
       compressionQuality: Number,
       presize: {type: Boolean, reflect: true}, //todo Not documented
-      lowerImage: {type: Boolean, reflect: true, attribute: 'lower-image'}, //todo Not documented
       editingEnabled: Boolean,
     };
   }
@@ -53,9 +52,6 @@ export class MkwcEditableImage extends LitElement {
       }
       :host([fit="scale-down"]) img {
         object-fit: scale-down;
-      }
-      :host([lower-image]) ::slotted {
-        z-index: -1;
       }
       input {
         display: none;
