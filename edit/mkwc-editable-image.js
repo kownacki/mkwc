@@ -17,6 +17,7 @@ export class MkwcEditableImage extends LitElement {
       compressionQuality: Number,
       presize: {type: Boolean, reflect: true}, //todo Not documented
       editingEnabled: Boolean,
+      loading: {type: Boolean, reflect: true}, //todo Not documented
     };
   }
   static get styles() {
@@ -25,7 +26,7 @@ export class MkwcEditableImage extends LitElement {
         display: block;
         position: relative;
       }
-      :host(:not([ready])) {
+      :host(:not([ready])), :host([loading]) {
         opacity: 50%;
       }
       :host(:not([not-empty])) {
@@ -73,14 +74,23 @@ export class MkwcEditableImage extends LitElement {
       }
     `];
   }
+  updated(changedProperties) {
+    if (changedProperties.has('src')) {
+      this.loading = true;
+      this.dispatchEvent(new CustomEvent('load-started'))
+    }
+  }
   render() {
     return html`
-      ${this.ready ? '' : html`<mkwc-loading-dots></mkwc-loading-dots>`}
-      ${!this.src ? '' : html`<img class="image" .src=${this.src}>`}
+      ${this.ready && !this.loading ? '' : html`<mkwc-loading-dots></mkwc-loading-dots>`}
+      ${!this.src ? '' : html`<img
+        class="image"
+        .src=${this.src}
+        @load=${() => { this.loading = false; this.dispatchEvent(new CustomEvent('load-ended')); }}>`}
       ${!this.editingEnabled ? '' : html`
         <mkwc-image-upload id="upload"></mkwc-image-upload>
         <mwc-icon-button-fixed
-          ?hidden=${!this.ready}
+          ?hidden=${!this.ready || this.loading}
           .noink=${true}
           .icon=${'image'}
           @click=${async () => {
@@ -96,12 +106,12 @@ export class MkwcEditableImage extends LitElement {
               const blob = await fitAndCompress(
                 this.fit === 'contain' ? 'scale-down' : this.fit,
                 this.maxWidth,
-                this.maxHeight, 
+                this.maxHeight,
                 this.compressionQuality,
                 file
               );
               this.dispatchEvent(new CustomEvent('save', {detail: blob}));
-              this.src = await readBlobOrFile(blob);           
+              this.src = await readBlobOrFile(blob);
             }
           }}>
         </mwc-icon-button-fixed>
