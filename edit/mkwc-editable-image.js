@@ -11,7 +11,7 @@ export class MkwcEditableImage extends LitElement {
     return {
       src: {type: Boolean, reflect: true, attribute: 'not-empty'},
       ready: {type: Boolean, reflect: true},
-      fit: {type: String, reflect: true}, // 'cover', 'contain', 'scale-down' or undefined
+      fit: {type: String, reflect: true}, // 'cover-with-clip', 'cover', 'contain', 'scale-down' or undefined
       maxWidth: Number,
       maxHeight: Number,
       compressionQuality: Number,
@@ -45,7 +45,7 @@ export class MkwcEditableImage extends LitElement {
       :host([fit]) img {
         height: 100%;
       }
-      :host([fit="cover"]) img {
+      :host([fit="cover"]) img, :host([fit="cover-with-clip"]) img {
         object-fit: cover;
       }
       :host([fit="contain"]) img {
