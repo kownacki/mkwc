@@ -16,9 +16,8 @@ export const dbSyncMixin = (dataPropName, Class) =>
     constructor(...args) {
       super(...args);
       this.addEventListener('save', async (event) => {
-        this.dispatchEvent(new CustomEvent('updated', {
-          detail: await this.updateData(this.path, event.detail, this[dataPropName])
-        }));
+        const updatedData = await this.updateData(this.path, event.detail, this[dataPropName]);
+        this.dispatchEvent(new CustomEvent('updated', {detail: updatedData}));
       });
     }
     updated(changedProperties) {
