@@ -81,16 +81,18 @@ export class MkwcEditableImage extends LitElement {
     }
   }
   render() {
+    const showImage = this.ready && !this.loading;
     return html`
-      ${this.ready && !this.loading ? '' : html`<mkwc-loading-dots></mkwc-loading-dots>`}
-      ${!this.src ? '' : html`<img
+      <img
+        ?hidden=${!showImage}
         class="image"
         .src=${this.src}
-        @load=${() => { this.loading = false; this.dispatchEvent(new CustomEvent('load-ended')); }}>`}
+        @load=${() => { this.loading = false; this.dispatchEvent(new CustomEvent('load-ended')); }}>
+      <mkwc-loading-dots ?hidden=${showImage}></mkwc-loading-dots>
       ${!this.editingEnabled ? '' : html`
         <mkwc-image-upload id="upload"></mkwc-image-upload>
         <mwc-icon-button-fixed
-          ?hidden=${!this.ready || this.loading}
+          ?hidden=${!showImage}
           .noink=${true}
           .icon=${'image'}
           @click=${async () => {
