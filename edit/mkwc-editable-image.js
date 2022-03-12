@@ -9,7 +9,7 @@ import './mkwc-image-upload.js';
 export class MkwcEditableImage extends LitElement {
   static get properties() {
     return {
-      src: {type: Boolean, reflect: true, attribute: 'not-empty'},
+      src: String,
       ready: {type: Boolean, reflect: true},
       fit: {type: String, reflect: true}, // 'cover-with-clip', 'cover', 'contain', 'scale-down' or undefined
       maxWidth: Number,
@@ -29,10 +29,10 @@ export class MkwcEditableImage extends LitElement {
       :host(:not([ready])) .image, :host([loading]) .image {
         opacity: 50%;
       }
-      :host(:not([not-empty])), :host([fit="cover"]), :host([fit="cover-with-clip"]) {
+      :host(not:([ready]))), :host([fit="cover"]), :host([fit="cover-with-clip"]) {
         background: var(--mkwc-editable-image-placeholder-color, var(--_mkwc-placeholder-color));
       }
-      :host([presize]:not([not-empty])) {
+      :host([ready][presize]) {
         height: 250px;
       }
       img {
