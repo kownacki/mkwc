@@ -121,3 +121,4 @@ export class MkwcEditableImage extends LitElement {
     `;
   }
 }
+customElements.define('mkwc-editable-image', MkwcEditableImage);

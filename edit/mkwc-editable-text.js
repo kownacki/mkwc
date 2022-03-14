@@ -256,3 +256,4 @@ export class MkwcEditableText extends LitElement {
     `;
   }
 }
+customElements.define('mkwc-editable-text', MkwcEditableText);
