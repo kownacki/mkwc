@@ -16,15 +16,21 @@ export const dbSyncMixin = (dataPropName, Class) =>
       super(...args);
       this.addEventListener('save', async (event) => {
         const updatedData = await this.updateData(this.path, event.detail, this[dataPropName]);
-        this.dispatchEvent(new CustomEvent('updated', {detail: updatedData}));
+        this.dispatchEvent(new CustomEvent('data-updated', {detail: updatedData}));
       });
     }
     updated(changedProperties) {
-      if (changedProperties.has('path') && this.path && !this.noGet) {
+      if (changedProperties.has('path') && !this.noGet) {
+        this.dataReady = false;
+        this.dispatchEvent(new CustomEvent('data-start-getting'));
+        const pathBeforeGettingData = this.path;
         (async () => {
-          this[dataPropName] = await this.getData(this.path);
-          this.dataReady = true;
-          this.dispatchEvent(new CustomEvent('data-ready', {detail: this[dataPropName], composed: true}));
+          const gotData = await this.getData(this.path);
+          if (_.isEqual(this.path, pathBeforeGettingData)) {
+            this[dataPropName] = gotData;
+            this.dataReady = true;
+            this.dispatchEvent(new CustomEvent('data-ready', {detail: this[dataPropName]}));
+          }
         })();
       }
       super.updated(changedProperties);

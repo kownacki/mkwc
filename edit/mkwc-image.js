@@ -9,7 +9,7 @@ export class MkwcImage extends dbSyncMixin('image', MkwcEditableImage) {
   }
   constructor() {
     super();
-    this.addEventListener('updated', async (event) => this.image = event.detail);
+    this.addEventListener('data-updated', async (event) => this.image = event.detail);
   }
   updated(changedProperties) {
     if (changedProperties.has('image')) {
