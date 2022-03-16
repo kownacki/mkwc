@@ -14,6 +14,7 @@ export class MkwcImage extends dbSyncMixin('image', MkwcEditableImage) {
   updated(changedProperties) {
     if (changedProperties.has('image')) {
       this.src = _.get('url', this.image);
+      this.ready = true;
     }
     super.updated(changedProperties);
   }

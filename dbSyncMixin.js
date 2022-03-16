@@ -9,8 +9,7 @@ export const dbSyncMixin = (dataPropName, Class) =>
         // optional params
         noGet: Boolean, // prevent from getting data when path is set
         // observables
-        // todo also check all prototypes
-        ...(_.has('ready', super.properties) ? {} : {ready: Boolean}),
+        dataReady: Boolean,
       };
     }
     constructor(...args) {
@@ -21,14 +20,12 @@ export const dbSyncMixin = (dataPropName, Class) =>
       });
     }
     updated(changedProperties) {
-      if (changedProperties.has('path')) {
-        if (this.path && !this.noGet) {
-          (async () => {
-            this[dataPropName] = await this.getData(this.path);
-            this.ready = true;
-            this.dispatchEvent(new CustomEvent('ready', {detail: this[dataPropName], composed: true}));
-          })();
-        }
+      if (changedProperties.has('path') && this.path && !this.noGet) {
+        (async () => {
+          this[dataPropName] = await this.getData(this.path);
+          this.dataReady = true;
+          this.dispatchEvent(new CustomEvent('data-ready', {detail: this[dataPropName], composed: true}));
+        })();
       }
       super.updated(changedProperties);
     }
