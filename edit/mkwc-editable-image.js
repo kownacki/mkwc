@@ -28,7 +28,7 @@ export class MkwcEditableImage extends LitElement {
         display: block;
         position: relative;
       }
-      :host(not:([ready])), :host([fit="cover"]), :host([fit="cover-with-clip"]) {
+      :host(:not([ready])), :host([fit="cover"]), :host([fit="cover-with-clip"]) {
         background: var(--mkwc-editable-image-placeholder-color, var(--_mkwc-placeholder-color));
       }
       :host([ready][presize]) {
