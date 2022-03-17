@@ -11,12 +11,14 @@ export class MkwcImage extends dbSyncMixin('image', MkwcEditableImage) {
     super();
     this.addEventListener('data-updated', async (event) => this.image = event.detail);
   }
-  updated(changedProperties) {
-    if (changedProperties.has('image')) {
-      this.src = _.get('url', this.image);
-      this.ready = true;
+  willUpdate(changedProperties) {
+    if (changedProperties.has('dataReady')) {
+      this.ready = this.dataReady;
     }
-    super.updated(changedProperties);
+    if ((changedProperties.has('image') || changedProperties.has('ready')) && this.ready) {
+      this.src = this.image?.url;
+    }
+    super.willUpdate(changedProperties);
   }
 }
 customElements.define('mkwc-image', MkwcImage);
