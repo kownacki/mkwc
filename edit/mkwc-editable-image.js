@@ -19,7 +19,6 @@ export class MkwcEditableImage extends LitElement {
       compressionQuality: Number,
       presize: {type: Boolean, reflect: true}, //todo Not documented
       editingEnabled: Boolean,
-      _activeSrc: String,
     };
   }
   static get styles() {
@@ -57,15 +56,6 @@ export class MkwcEditableImage extends LitElement {
       }
     `];
   }
-  willUpdate(changedProperties) {
-    if (changedProperties.has('src') || changedProperties.has('ready')) {
-      if (this.ready) {
-        this._activeSrc = this.src;
-      } else {
-        this._activeSrc = undefined;
-      }
-    }
-  }
   _startLoading() {
     this.loading = true;
     this.dispatchEvent(new CustomEvent('loading-started'));
@@ -76,10 +66,11 @@ export class MkwcEditableImage extends LitElement {
   }
   render() {
     const showImage = this.ready && !this.loading;
+    const activeSrc = this.ready ? this.src : undefined;
     return html`
       <mkwc-loading-img
         ?hidden=${!showImage}
-        .src=${this._activeSrc}
+        .src=${activeSrc}
         .fit=${this.fit}
         @loading-started=${() => this._startLoading()}
         @loading-ended=${() => this._endLoading()}>
