@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "@ckeditor/ckeditor5-build-inline": "git+https://github.com/kownacki/ckeditor5-build-inline.git#stable",
+    "lodash-es": "^4.17.21",
     "material-colors": "^1.2.6",
     "mk-frontend-web-utils": "git+https://github.com/kownacki/mk-frontend-web-utils.git#master",
     "mk-js-utils": "git+https://github.com/kownacki/mk-js-utils.git#master"

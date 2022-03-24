@@ -1,3 +1,5 @@
+import {isEqual} from 'lodash-es';
+
 export class DbSyncController {
   _host;
   _path;
@@ -36,13 +38,13 @@ export class DbSyncController {
     this._setDataReady(false);
     const pathBeforeGettingData = this._path;
     const gotData = await this._getData(this._path);
-    if (_.isEqual(this._path, pathBeforeGettingData)) {
+    if (isEqual(this._path, pathBeforeGettingData)) {
       this._setLocalData(gotData);
       this._setDataReady(true);
     }
   }
   setPath(newPath) {
-    if (!_.isEqual(this._path, newPath)) {
+    if (!isEqual(this._path, newPath)) {
       this._path = newPath;
       if (!this._noGet) {
         this._syncLocalData();
