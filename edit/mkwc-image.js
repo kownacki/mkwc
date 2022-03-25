@@ -9,6 +9,7 @@ export class MkwcImage extends MkwcEditableImage {
     image: Object,
   };
   firstUpdated(changedProperties) {
+    super.firstUpdated(changedProperties);
     this._dbSync = new DbSyncController(
       this,
       this.getData,
@@ -20,7 +21,6 @@ export class MkwcImage extends MkwcEditableImage {
     this.addEventListener('save', (event) => {
       this._dbSync.requestDataUpdate(event.detail);
     });
-    super.firstUpdated(changedProperties);
   }
   willUpdate(changedProperties) {
     if ((changedProperties.has('image') || changedProperties.has('ready')) && this.ready) {
@@ -29,6 +29,7 @@ export class MkwcImage extends MkwcEditableImage {
     super.willUpdate(changedProperties);
   }
   updated(changedProperties) {
+    super.updated(changedProperties);
     if (changedProperties.has('path')) {
       this._dbSync.setPath(this.path);
     }
