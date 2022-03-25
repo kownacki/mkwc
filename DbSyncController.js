@@ -10,7 +10,7 @@ export class DbSyncController {
   _onDataChange;
   dataReady;
   data;
-  constructor(host, getData, updateData, onDataReadyChange, onDataChange, options) {
+  constructor(host, getData, updateData, onDataReadyChange, onDataChange, options = {}) {
     this._host = host;
     this._getData = getData;
     this._updateData = updateData;
@@ -43,11 +43,11 @@ export class DbSyncController {
       this._setDataReady(true);
     }
   }
-  setPath(newPath) {
+  async setPath(newPath) {
     if (!isEqual(this._path, newPath)) {
       this._path = newPath;
       if (!this._noGet) {
-        this._syncLocalData();
+        return this._syncLocalData();
       }
     }
   }
