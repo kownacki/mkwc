@@ -52,8 +52,11 @@ export class DbSyncController {
     }
   }
   async requestDataUpdate(newData) {
+    const pathBeforeGettingData = this._path;
     const updatedData = await this._updateData(this._path, newData, this.data);
-    this._setLocalData(updatedData);
+    if (isEqual(this._path, pathBeforeGettingData)) {
+      this._setLocalData(updatedData);
+    }
     this._host.dispatchEvent(new CustomEvent('data-updated', {detail: this.data}));
     return this.data;
   }
