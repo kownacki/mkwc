@@ -5,7 +5,8 @@ export class MkwcImage extends MkwcEditableImage {
   _dbSync;
   static properties = {
     path: Object, // Parameter passed to getData and updateData
-    noGet: Boolean,  // prevent from getting data when path is set
+    noGet: Boolean, // prevent from getting data when path is set
+    noUpdate: Boolean, // prevent from updating data when image is uploaded
     image: Object,
   };
   firstUpdated(changedProperties) {
@@ -18,8 +19,10 @@ export class MkwcImage extends MkwcEditableImage {
       (data) => this.image = data,
       {noGet: this.noGet},
     );
-    this.addEventListener('save', (event) => {
-      this._dbSync.requestDataUpdate(event.detail);
+    this.addEventListener('image-uploaded', (event) => {
+      if (!this.noUpdate) {
+        this._dbSync.requestDataUpdate(event.detail);
+      }
     });
   }
   willUpdate(changedProperties) {

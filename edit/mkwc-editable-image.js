@@ -99,7 +99,7 @@ export class MkwcEditableImage extends LitElement {
                 this.compressionQuality,
                 file
               );
-              this.dispatchEvent(new CustomEvent('save', {detail: blob}));
+              this.dispatchEvent(new CustomEvent('image-uploaded', {detail: blob}));
               //this.src = await readBlobOrFile(blob);
             }
           }}>
