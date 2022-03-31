@@ -52,6 +52,7 @@ export class DbSyncController {
     }
   }
   async requestDataUpdate(newData) {
+    //todo add 'processing' data
     const pathBeforeGettingData = this._path;
     const updatedData = await this._updateData(this._path, newData, this.data);
     if (isEqual(this._path, pathBeforeGettingData)) {

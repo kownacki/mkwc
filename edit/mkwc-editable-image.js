@@ -2,93 +2,62 @@ import {LitElement, html, css} from 'lit';
 import {fitAndCompress} from 'mk-frontend-web-utils/fitAndCompress.js';
 //import {readBlobOrFile} from 'mk-frontend-web-utils/readBlobOrFile.js';
 import '../fixes/mwc-icon-button-fixed.js';
-import '../mkwc-loading-dots.js';
 import {sharedStyles} from '../styles.js';
+import './mkwc-image.js';
 import './mkwc-image-upload.js';
-import './mkwc-loading-img.js';
 
 export class MkwcEditableImage extends LitElement {
-  static get properties() {
-    return {
-      src: String,
-      ready: {type: Boolean, reflect: true},
-      loading: {type: Boolean, reflect: true}, //todo Not documented
-      showImage: {type: Boolean, reflect: true, attribute: 'show-image'},
-      notFound: {type: Boolean, reflect: true, attribute: 'not-found'},
-      fit: {type: String, reflect: true}, // 'cover-with-clip', 'cover', 'contain', 'scale-down' or undefined
-      maxWidth: Number,
-      maxHeight: Number,
-      compressionQuality: Number,
-      presize: {type: Boolean, reflect: true}, //todo Not documented
-      editingEnabled: Boolean,
-    };
-  }
-  static get styles() {
-    return [sharedStyles, css`
-      :host {
-        display: block;
-        position: relative;
-      }
-      :host(:not([show-image])), :host([not-found]) {
-        background: var(--mkwc-editable-image-placeholder-color, var(--_mkwc-placeholder-color));
-      }
-      :host([presize]:not([show-image])), :host([presize][not-found]) {
-        height: 250px;
-      }
-      input {
-        display: none;
-      }
-      mwc-icon-button-fixed {
-        display: none;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        --mdc-icon-fixed-shadow: 0 0 10px
-          var(--mkwc-editable-image-icon-button-shadow-color, var(--_mkwc-placeholder-color));
-        --mdc-icon-size: 48px;
-      }
-      :host(:hover) mwc-icon-button-fixed {
-        display: flex;
-        cursor: pointer;
-      }
-    `];
-  }
-  willUpdate(changedProperties) {
-    if (changedProperties.has('ready') || changedProperties.has('loading')) {
-      this.showImage = this.ready && !this.loading;
+  static properties = {
+    // mkwc-image params
+    src: String,
+    ready: {type: Boolean, reflect: true},
+    fit: {type: String, reflect: true}, // 'cover-with-clip', 'cover', 'contain', 'scale-down' or undefined
+    presize: {type: Boolean, reflect: true}, //todo Not documented
+    // new params
+    maxWidth: Number,
+    maxHeight: Number,
+    compressionQuality: Number,
+    editingEnabled: Boolean,
+    // private
+    _showControls: Boolean,
+  };
+  static styles = [sharedStyles, css`
+    :host {
+      display: block;
+      position: relative;
     }
-    if (changedProperties.has('ready') || changedProperties.has('src')) {
-      this.notFound = this.ready && !this.src;
+    mwc-icon-button-fixed {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      --mdc-icon-fixed-shadow: 0 0 10px
+        var(--mkwc-editable-image-icon-button-shadow-color, var(--_mkwc-placeholder-color));
+      --mdc-icon-size: 48px;
     }
-  }
-  _startLoading() {
-    this.loading = true;
-    this.dispatchEvent(new CustomEvent('loading-started'));
-  }
-  _endLoading() {
-    this.loading = false;
-    this.dispatchEvent(new CustomEvent('loading-ended'));
-  }
+    :host(:hover) mwc-icon-button-fixed {
+      display: flex;
+      cursor: pointer;
+    }
+  `];
   render() {
-    const activeSrc = this.ready ? this.src : undefined;
     return html`
-      <mkwc-loading-img
-        ?hidden=${!this.showImage}
-        .src=${activeSrc}
+      <mkwc-image
+        .src=${this.src}
+        .ready=${this.ready}
         .fit=${this.fit}
-        @loading-started=${() => this._startLoading()}
-        @loading-ended=${() => this._endLoading()}>
-      </mkwc-loading-img>
-      <mkwc-loading-dots ?hidden=${this.showImage}></mkwc-loading-dots>
+        .presize=${this.presize}
+        @show-image-changed=${({detail: showImage}) => this._showControls = showImage}>
+      </mkwc-image>
       ${!this.editingEnabled ? '' : html`
         <mkwc-image-upload id="upload"></mkwc-image-upload>
         <mwc-icon-button-fixed
-          ?hidden=${!this.showImage}
+          ?hidden=${!this._showControls}
           .noink=${true}
           .icon=${'image'}
           @click=${async () => {
