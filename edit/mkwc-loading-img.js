@@ -11,6 +11,8 @@ export class MkwcLoadingImg extends LitElement {
     return {
       src: String,
       fit: {type: String, reflect: true},
+      // observables
+      loaded: {type: Boolean, reflect: true},
       loading: {type: Boolean, reflect: true},
     };
   }
@@ -39,24 +41,41 @@ export class MkwcLoadingImg extends LitElement {
   }
   constructor() {
     super();
+    this.loaded = false;
     this.loading = false;
   }
+  _setLoaded(value) {
+    if (this.loaded !== value) {
+      this.loaded = value;
+      this.dispatchEvent(new CustomEvent('loaded-changed', {detail: this.loaded}));
+    }
+  }
+  _setLoading(value) {
+    if (this.loading !== value) {
+      this.loading = value;
+      this.dispatchEvent(new CustomEvent('loading-changed', {detail: this.loading}));
+    }
+  }
   _startLoading() {
-    this.loading = true;
+    this._setLoaded(false);
+    this._setLoading(true);
     this.dispatchEvent(new CustomEvent('loading-started'));
   }
   _endLoading() {
-    if (this.loading) {
-      this.loading = false;
-      this.dispatchEvent(new CustomEvent('loading-ended'));
-    }
+    this._setLoaded(true);
+    this._setLoading(false);
+    this.dispatchEvent(new CustomEvent('loading-ended'));
+  }
+  _clearLoading() {
+    this._setLoading(false);
+    this._setLoaded(false);
   }
   updated(changedProperties) {
     if (changedProperties.has('src')) {
       if (this.src !== undefined && this.src !== null) {
         this._startLoading();
       } else {
-        this._endLoading();
+        this._clearLoading();
       }
     }
   }
@@ -64,8 +83,8 @@ export class MkwcLoadingImg extends LitElement {
     return html`
       <img
         src=${ifDefined(this.src)}
-        @load=${this._endLoading}
-        @error=${this._endLoading}>
+        @load=${() => this._endLoading()}
+        @error=${() => this._endLoading()}>
     `;
   }
 }

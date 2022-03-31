@@ -11,7 +11,7 @@ export class MkwcImage extends LitElement {
     fit: {type: String, reflect: true}, // 'cover-with-clip', 'cover', 'contain', 'scale-down' or undefined
     presize: {type: Boolean, reflect: true}, //todo Not documented
     // observables
-    loading: {type: Boolean, reflect: true}, //todo Not documented
+    loaded: {type: Boolean, reflect: true},
     showImage: {type: Boolean, reflect: true, attribute: 'show-image'},
     notFound: {type: Boolean, reflect: true, attribute: 'not-found'},
   };
@@ -27,18 +27,18 @@ export class MkwcImage extends LitElement {
       height: 250px;
     }
   `];
+  constructor() {
+    super();
+    this.loaded = false;
+    this.showImage = false;
+    this.notFound = false;
+  }
   willUpdate(changedProperties) {
-    if (changedProperties.has('ready') || changedProperties.has('loading')) {
-      this._setShowImage(this.ready && !this.loading);
+    if (changedProperties.has('ready') || changedProperties.has('loaded')) {
+      this._setShowImage(Boolean(this.ready) && this.loaded);
     }
     if (changedProperties.has('ready') || changedProperties.has('src')) {
-      this._setNotFound(this.ready && !this.src);
-    }
-  }
-  _setLoading(value) {
-    if (this.loading !== value) {
-      this.loading = value;
-      this.dispatchEvent(new CustomEvent('loading-changed', {detail: this.loading}));
+      this._setNotFound(Boolean(this.ready) && !Boolean(this.src));
     }
   }
   _setShowImage(value) {
@@ -60,8 +60,7 @@ export class MkwcImage extends LitElement {
         ?hidden=${!this.showImage}
         .src=${activeSrc}
         .fit=${this.fit}
-        @loading-started=${() => this._setLoading(true)}
-        @loading-ended=${() => this._setLoading(false)}>
+        @loaded-changed=${({detail: loaded}) => this.loaded = loaded}>
       </mkwc-loading-img>
       <mkwc-loading-dots ?hidden=${this.showImage}></mkwc-loading-dots>
     `;
