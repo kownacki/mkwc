@@ -3,6 +3,7 @@ import {fitAndCompress} from 'mk-frontend-web-utils/fitAndCompress.js';
 //import {readBlobOrFile} from 'mk-frontend-web-utils/readBlobOrFile.js';
 import '../fixes/mwc-icon-button-fixed.js';
 import {sharedStyles} from '../styles.js';
+import {MkwcImageState} from './mkwc-image.js';
 import './mkwc-image.js';
 import './mkwc-image-upload.js';
 
@@ -52,7 +53,9 @@ export class MkwcEditableImage extends LitElement {
         .ready=${this.ready}
         .fit=${this.fit}
         .presize=${this.presize}
-        @show-image-changed=${({detail: showImage}) => this._showControls = showImage}>
+        @state-changed=${({detail: state}) => {
+          this._showControls = state === MkwcImageState.LOADED || state === MkwcImageState.READY_BUT_NO_SRC;
+        }}>
       </mkwc-image>
       ${!this.editingEnabled ? '' : html`
         <mkwc-image-upload id="upload"></mkwc-image-upload>

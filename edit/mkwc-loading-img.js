@@ -12,8 +12,8 @@ export class MkwcLoadingImg extends LitElement {
       src: String,
       fit: {type: String, reflect: true},
       // observables
-      loaded: {type: Boolean, reflect: true},
       loading: {type: Boolean, reflect: true},
+      loaded: {type: Boolean, reflect: true},
     };
   }
   static get styles() {
@@ -41,19 +41,19 @@ export class MkwcLoadingImg extends LitElement {
   }
   constructor() {
     super();
-    this.loaded = false;
     this.loading = false;
-  }
-  _setLoaded(value) {
-    if (this.loaded !== value) {
-      this.loaded = value;
-      this.dispatchEvent(new CustomEvent('loaded-changed', {detail: this.loaded}));
-    }
+    this.loaded = false;
   }
   _setLoading(value) {
     if (this.loading !== value) {
       this.loading = value;
       this.dispatchEvent(new CustomEvent('loading-changed', {detail: this.loading}));
+    }
+  }
+  _setLoaded(value) {
+    if (this.loaded !== value) {
+      this.loaded = value;
+      this.dispatchEvent(new CustomEvent('loaded-changed', {detail: this.loaded}));
     }
   }
   _startLoading() {
@@ -62,8 +62,8 @@ export class MkwcLoadingImg extends LitElement {
     this.dispatchEvent(new CustomEvent('loading-started'));
   }
   _endLoading() {
-    this._setLoaded(true);
     this._setLoading(false);
+    this._setLoaded(true);
     this.dispatchEvent(new CustomEvent('loading-ended'));
   }
   _clearLoading() {
