@@ -10,6 +10,7 @@ export class MkwcLoadingDots extends LitElement {
     return css`
       :host {
         display: block;
+        position: relative;
       }
       ${unsafeCSS(loadingDots.css(true))}
     `;

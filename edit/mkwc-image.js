@@ -34,6 +34,10 @@ export class MkwcImage extends LitElement {
     :host([presize]:not([state="${unsafeCSS(MkwcImageState.LOADED)}"])) {
       height: 250px;
     }
+    mkwc-loading-dots {
+      height: 100%;
+      width: 100%;
+    }
   `];
   constructor() {
     super();
