@@ -1,11 +1,11 @@
 import {LitElement, html, css} from 'lit';
 import {fitAndCompress} from 'mk-frontend-web-utils/fitAndCompress.js';
 //import {readBlobOrFile} from 'mk-frontend-web-utils/readBlobOrFile.js';
+import {upload} from 'mk-frontend-web-utils/upload.js';
 import '../fixes/mwc-icon-button-fixed.js';
 import {sharedStyles} from '../styles.js';
 import {MkwcImageState} from './mkwc-image.js';
 import './mkwc-image.js';
-import './mkwc-image-upload.js';
 
 export class MkwcEditableImage extends LitElement {
   static properties = {
@@ -58,7 +58,6 @@ export class MkwcEditableImage extends LitElement {
         }}>
       </mkwc-image>
       ${!this.editingEnabled ? '' : html`
-        <mkwc-image-upload id="upload"></mkwc-image-upload>
         <mwc-icon-button-fixed
           ?hidden=${!this._showControls}
           .noink=${true}
@@ -71,7 +70,7 @@ export class MkwcEditableImage extends LitElement {
                 'Unsupported parameters combination. "maxHeight" cannot be set without "fit".',
               );
             }
-            let file = await this.shadowRoot.getElementById('upload').upload();
+            let file = await upload();
             if (file) {
               const blob = await fitAndCompress(
                 this.fit === 'contain' ? 'scale-down' : this.fit,
