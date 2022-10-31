@@ -26,7 +26,17 @@ const createDbSyncControllerFixture = (dbSyncControllerOptions) => {
   const getDataMock = jest.fn().mockName('getDataMock');
   const updateDataMock = jest.fn().mockName('updateDataMock');
 
-  const dbSyncController = new DbSyncController(hostMock, getDataMock, updateDataMock, onDataReadyChangeMock, onDataChangeMock, onIsUpdatingChangeMock, dbSyncControllerOptions);
+  const dbSyncController = new DbSyncController(
+    hostMock,
+    {
+      getData: getDataMock,
+      updateData: updateDataMock,
+      onDataReadyChange: onDataReadyChangeMock,
+      onDataChange: onDataChangeMock,
+      onIsUpdatingChange: onIsUpdatingChangeMock,
+    },
+    dbSyncControllerOptions,
+  );
 
   return {
     dbSyncController,

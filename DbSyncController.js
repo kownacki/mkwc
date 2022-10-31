@@ -12,7 +12,7 @@ export class DbSyncController {
   dataReady;
   data;
   isUpdating;
-  constructor(host, getData, updateData, onDataReadyChange, onDataChange, onIsUpdatingChange, options = {}) {
+  constructor(host, {getData, updateData, onDataReadyChange, onDataChange, onIsUpdatingChange}, options = {}) {
     this._host = host;
     this._getData = getData;
     this._updateData = updateData;
