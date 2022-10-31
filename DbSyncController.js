@@ -25,7 +25,7 @@ export class DbSyncController {
   }
   _setDataReady(newDataReady) {
     this.dataReady = newDataReady;
-    this._onDataReadyChange(this.dataReady);
+    this._onDataReadyChange?.(this.dataReady);
     if (newDataReady) {
       this._host.dispatchEvent(new CustomEvent('data-ready', {detail: this.data}));
     } else {
@@ -35,12 +35,12 @@ export class DbSyncController {
   }
   _setIsUpdating(newIsUpdating) {
     this.isUpdating = newIsUpdating;
-    this._onIsUpdatingChange(this.isUpdating);
+    this._onIsUpdatingChange?.(this.isUpdating);
     return this.isUpdating;
   }
   _setLocalData(newData) {
     this.data = newData;
-    this._onDataChange(this.data);
+    this._onDataChange?.(this.data);
     return this.data;
   }
   async _syncLocalData() {
