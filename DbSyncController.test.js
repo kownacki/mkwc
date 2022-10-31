@@ -22,15 +22,17 @@ const createStubs = () => ({
 const createDbSyncControllerFixture = (dbSyncControllerOptions) => {
   const onDataReadyChangeMock = jest.fn().mockName('onDataReadyChangeMock');
   const onDataChangeMock = jest.fn().mockName('onDataChangeMock');
+  const onIsUpdatingChangeMock = jest.fn().mockName('onIsUpdatingChangeMock');
   const getDataMock = jest.fn().mockName('getDataMock');
   const updateDataMock = jest.fn().mockName('updateDataMock');
 
-  const dbSyncController = new DbSyncController(hostMock, getDataMock, updateDataMock, onDataReadyChangeMock, onDataChangeMock, dbSyncControllerOptions);
+  const dbSyncController = new DbSyncController(hostMock, getDataMock, updateDataMock, onDataReadyChangeMock, onDataChangeMock, onIsUpdatingChangeMock, dbSyncControllerOptions);
 
   return {
     dbSyncController,
     onDataReadyChangeMock,
     onDataChangeMock,
+    onIsUpdatingChangeMock,
     getDataMock,
     updateDataMock,
   };
@@ -72,7 +74,7 @@ describe('DbSyncController', () => {
     expectDataReadyChange(fixture, true);
   });
 
-  it('Doesn\'t get data if option noGet is set ', async () => {
+  it('Doesn\'t get data if option noGet is set', async () => {
     const fixture = createDbSyncControllerFixture({noGet: true});
     const stubs = createStubs();
     fixture.getDataMock.mockResolvedValue(stubs.dataStub);
@@ -115,9 +117,11 @@ describe('DbSyncController', () => {
     fixture.dbSyncController.data = stubs.oldDataStub;
     const requestDataUpdatePromise = fixture.dbSyncController.requestDataUpdate(stubs.newDataStub);
 
+    expect(fixture.onIsUpdatingChangeMock).toBeCalledWith(true);
     expect(fixture.updateDataMock).toBeCalledWith(stubs.pathStub, stubs.newDataStub, stubs.oldDataStub);
     await requestDataUpdatePromise;
     expectDataChange(fixture, stubs.updatedDataStub);
+    expect(fixture.onIsUpdatingChangeMock).toBeCalledWith(false);
   });
 
   it('Updates data but skips setting it if path changed in the meantime', async () => {
