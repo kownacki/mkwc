@@ -20,6 +20,7 @@ export class DbSyncController {
     this._onDataChange = onDataChange;
     this._onIsUpdatingChange = onIsUpdatingChange;
     this._noGet = options.noGet;
+    this.dataReady = false;
     this.isUpdating = false;
     host.addController(this);
   }

@@ -43,7 +43,7 @@ const expectDataReadyChange = (fixture, newValue) => {
   expect(fixture.onDataReadyChangeMock).toBeCalledWith(newValue);
 };
 
-const expectDataReadyNotToBeChanged = (fixture, oldValue = undefined) => {
+const expectDataReadyNotToBeChanged = (fixture, oldValue = false) => {
   expect(fixture.dbSyncController.dataReady).toBe(oldValue);
   expect(fixture.onDataReadyChangeMock).not.toBeCalled();
 };
